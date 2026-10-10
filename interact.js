@@ -538,118 +538,138 @@ function changeLabView(vIdx) {
 
 
 // =================================================================
-// 5. NUEVA SECCIÓN: TEST AVANZADO DE 10 PREGUNTAS CON CRONÓMETRO (120s)
+// 5. TEST AVANZADO: 10 PREGUNTAS / 5 ALTERNATIVAS / DISTRIBUCIÓN UNIFORME (20% por letra: A, B, C, D, E)
 // =================================================================
 const ADVANCED_QUESTIONS = [
   {
-    q: "En el contexto de la Arquitectura ANSI/X3/SPARC de 3 niveles para SGBD, ¿cuál de las siguientes afirmaciones describe con precisión la 'Independencia Lógica de Datos'?",
+    // PREGUNTA 1 -> CORRECTA: A (índice 0) [20%]
+    q: "1. En el contexto de la Arquitectura ANSI/X3/SPARC de 3 niveles para SGBD, ¿cuál de las siguientes afirmaciones describe con precisión la 'Independencia Lógica de Datos'?",
     options: [
-      "Capacidad de modificar el esquema conceptual sin obligar a reescribir los programas de aplicación que acceden a la base de datos.",
-      "Capacidad de cambiar los discos físicos o estructuras de almacenamiento secundario sin alterar el esquema conceptual.",
-      "Capacidad de migrar entre distintos gestores de bases de datos relacionales (SGBD) sin cambiar el código COBOL/C.",
-      "Capacidad de eliminar claves primarias sin afectar los atributos derivados de las subentidades."
+      "A) Capacidad de modificar el esquema conceptual sin obligar a reescribir los programas de aplicación que acceden a la base de datos.",
+      "B) Capacidad de cambiar las estructuras de almacenamiento en disco físico sin alterar el esquema conceptual.",
+      "C) Capacidad de migrar entre distintos gestores de bases de datos relacionales sin modificar el código fuente de la aplicación.",
+      "D) Capacidad de eliminar claves primarias sin afectar los atributos derivados de las subentidades.",
+      "E) Capacidad de transformar esquemas ER a relacionales de forma automática mediante algoritmos compilados."
     ],
     correct: 0,
-    expl: "La Independencia Lógica de Datos es la capacidad de modificar el esquema conceptual sin provocar que se vuelvan a escribir los programas de aplicación (Manual, Cap. I)."
+    expl: "La Independencia Lógica de Datos es la capacidad de modificar el esquema conceptual (añadir/eliminar entidades o campos) sin provocar que se tengan que reescribir las aplicaciones de usuario (Manual, Cap. I)."
   },
   {
-    q: "Al comparar las Primitivas Descendentes D-6, D-7 y D-8, ¿cuál es la diferencia semántica fundamental entre D-6 y D-7 según la metodología del Dr. Caselli?",
+    // PREGUNTA 2 -> CORRECTA: B (índice 1) [20%]
+    q: "2. Al comparar las Primitivas Descendentes D-6, D-7 y D-8, ¿cuál es la diferencia semántica fundamental entre D-6 y D-7 según la metodología del Dr. Caselli?",
     options: [
-      "D-6 transforma una entidad en una jerarquía, mientras D-7 descompone relaciones en paralelas.",
-      "D-6 desarrolla atributos simples en entidades y relaciones, mientras D-7 desarrolla atributos compuestos integradores.",
-      "D-6 agrega claves primarias externas, mientras D-7 refina las cardinalidades de (0,1) a (1,n).",
-      "D-6 genera nuevas entidades independientes, mientras D-7 elimina ciclos de relaciones redundantes."
+      "A) D-6 transforma una entidad en una jerarquía, mientras D-7 descompone relaciones en paralelas.",
+      "B) D-6 desarrolla atributos simples en entidades o relaciones, mientras D-7 trata específicamente el desarrollo de atributos compuestos.",
+      "C) D-6 agrega claves primarias externas, mientras D-7 refina las cardinalidades de (0,1) a (1,n).",
+      "D) D-6 genera nuevas entidades independientes, mientras D-7 elimina ciclos de relaciones redundantes.",
+      "E) D-6 agrupa entidades similares, mientras D-7 fusiona relaciones jerárquicas."
     ],
     correct: 1,
-    expl: "D-6 corresponde al desarrollo de atributos simples en entidades o relaciones, mientras que D-7 trata específicamente el desarrollo de atributos compuestos (Manual, Cap. V)."
+    expl: "D-6 corresponde al desarrollo de atributos simples asociándolos a entidades o relaciones, mientras que D-7 desglosa atributos compuestos en sus componentes (Manual, Cap. V)."
   },
   {
-    q: "En una jerarquía de generalización entre la superentidad ESTUDIANTE y los subtipos INGENIERÍA e IDIOMAS con cobertura marcante (p, s), ¿qué restricción real de negocio se está modelando?",
+    // PREGUNTA 3 -> CORRECTA: C (índice 2) [20%]
+    q: "3. En una jerarquía de generalización entre la superentidad ESTUDIANTE y los subtipos INGENIERÍA e IDIOMAS con cobertura marcante (p, s), ¿qué restricción real de negocio se está modelando?",
     options: [
-      "Todos los estudiantes pertenecen a Ingeniería o Idiomas, pero ninguno puede estar matriculado en ambas a la vez.",
-      "No todos los estudiantes pertenecen a esas dos áreas (parcial) y un estudiante puede estar matriculado en ambas simultáneamente (superpuesta).",
-      "Es obligatorio que el estudiante pertenezca a ambas carreras a la vez (total y superpuesta).",
-      "Un estudiante solo puede pertenecer a Idiomas si previamente aprobó la carrera de Ingeniería (exclusiva)."
-    ],
-    correct: 1,
-    expl: "(p,s) significa Parcial y Superpuesta: existen otros tipos de estudiantes no contemplados en el modelo (parcial) y un estudiante puede estar en Ingeniería e Idiomas a la vez (superpuesta)."
-  },
-  {
-    q: "En el caso del Campeonato de Ajedrez, ¿por qué la entidad SALA se clasifica técnicamente como una Entidad Débil?",
-    options: [
-      "Porque no tiene atributos propios ni medios tecnológicos como TV o Internet.",
-      "Porque su existencia y clave de identificación dependen de la entidad fuerte HOTEL (requiere la clave compuesta HOTEL + Núm_sala).",
-      "Porque está conectada únicamente mediante una relación recursiva de orden N:M.",
-      "Porque no puede celebrar partidas durante las jornadas de descanso."
-    ],
-    correct: 1,
-    expl: "SALA es una entidad débil con respecto a HOTEL porque su identificador depende directamente de la clave del HOTEL al que pertenece (Manual, Cap. II y VI)."
-  },
-  {
-    q: "Analizando la eliminación de redundancias en un ciclo ER: si tenemos DOCENTE - (dicta) - ASIGNATURA - (pertenece) - DEPARTAMENTO - (adscrito) - DOCENTE, ¿bajo qué condición la relación 'adscrito' NO SE PUEDE ELIMINAR por no ser redundante?",
-    options: [
-      "Cuando la relación 'adscrito' no contiene atributos propios.",
-      "Cuando existen docentes que colaboran dictando asignaturas de otros departamentos distintos al de su adscripción formal o cuando hay docentes sin asignaturas a cargo.",
-      "Cuando la cardinalidad máxima de la relación 'dicta' es exactamente (1,1).",
-      "Cuando la entidad DEPARTAMENTO es una entidad débil vinculada a FACULTAD."
-    ],
-    correct: 1,
-    expl: "Si un docente puede dictar en departamentos ajenos o no dictar cursos, la ruta del ciclo no permite deducir con certeza a qué departamento está adscrito. Por ende, la relación 'adscrito' conserva semántica indispensable y no es redundante (Manual, Cap. IV)."
-  },
-  {
-    q: "En la notación IDEF1X soportada por herramientas como PowerDesigner, ¿cómo se representa la restricción de dependencia e identificación entre entidades?",
-    options: [
-      "Mediante óvalos dobles y líneas punteadas verdes.",
-      "Mediante la forma de los rectángulos (esquinas redondeadas para entidades dependientes/débiles) y líneas de conexión continuas con un punto en el extremo.",
-      "Mediante rombos sombreados con letras 't' y 'e'.",
-      "Colocando la entidad subconjunto dentro del cuadro físico de la entidad genérica."
-    ],
-    correct: 1,
-    expl: "En IDEF1X, las entidades dependientes se identifican gráficamente con esquinas redondeadas y sus conexiones de identificación llevan líneas continuas terminadas en un punto (Manual, Cap. IV)."
-  },
-  {
-    q: "En Sybase Adaptive Server Anywhere (ASA), al configurar una Clave Foránea (FK) con la regla de integridad referencial 'Set dependent columns to NULL' (SET NULL), ¿qué ocurre al ejecutar una sentencia DELETE sobre la tupla padre en la tabla principal?",
-    options: [
-      "El gestor aborta la transacción notificando una violación de restricción referencial.",
-      "Se eliminan automáticamente todos los registros asociados en la tabla hija.",
-      "Se borra la tupla padre y el gestor actualiza las columnas de la clave foránea en los registros hijos asignándoles el valor NULL.",
-      "Las claves primarias de los hijos se recalculan usando una función correlativa."
+      "A) Es obligatorio que el estudiante pertenezca a ambas carreras a la vez.",
+      "B) Todos los estudiantes pertenecen obligatoriamente a Ingeniería o Idiomas, pero ninguno a ambas simultáneamente.",
+      "C) Existen estudiantes que no pertenecen a ninguna de esas dos carreras (parcial) y un estudiante puede estar matriculado en ambas a la vez (superpuesta).",
+      "D) Un estudiante solo puede pertenecer a Idiomas si previamente concluyó la carrera de Ingeniería.",
+      "E) La cobertura es total y exclusiva, por lo que las subentidades heredan claves compuestas."
     ],
     correct: 2,
-    expl: "La regla SET NULL mantiene las filas hijas en la base de datos, pero limpia el vínculo colocando NULL en el campo de la clave ajena al eliminar la fila padre asociada (Manual, Cap. VII)."
+    expl: "(p,s) representa Cobertura Parcial y Superpuesta: existen otros tipos de alumnos no contemplados en esas subentidades (parcial) y un alumno puede pertenecer a más de una subentidad a la vez (superpuesta) (Manual, Cap. III)."
   },
   {
-    q: "De acuerdo con el enfoque orientado a los datos para el diseño de bases de datos de Batini/Ceri/Navathe, ¿cuál es el orden correcto de las fases de desarrollo?",
+    // PREGUNTA 4 -> CORRECTA: D (índice 3) [20%]
+    q: "4. En el diseño de bases de datos para el Campeonato de Ajedrez, ¿por qué la entidad SALA se clasifica técnicamente como una Entidad Débil?",
     options: [
-      "Requerimientos de datos -> Diseño Lógico -> Diseño Físico -> Esquema Conceptual.",
-      "Requerimientos de datos -> Diseño Conceptual -> Diseño Lógico -> Diseño Físico.",
-      "Diseño Físico -> Normalización -> Diseño Conceptual -> Esquema Lógico.",
-      "Diseño Inicial -> Normalización BCNF -> Estrategia Mixta -> Implementación SQL."
+      "A) Porque no posee atributos informativos ni medios tecnológicos como TV o Internet.",
+      "B) Porque está conectada únicamente mediante una relación recursiva de orden N:M.",
+      "C) Porque no puede alojar partidas durante las jornadas de descanso de los árbitros.",
+      "D) Porque su existencia y clave de identificación dependen directamente de la entidad fuerte HOTEL (requiere la clave compuesta HOTEL + Núm_sala).",
+      "E) Porque no permite establecer relaciones paralelas con la entidad JUGADOR."
+    ],
+    correct: 3,
+    expl: "SALA es una entidad débil de identificación con respecto a HOTEL porque el número de sala solo es único dentro de un hotel específico, requiriendo la clave compuesta del HOTEL para ser identificada (Manual, Cap. II y VI)."
+  },
+  {
+    // PREGUNTA 5 -> CORRECTA: E (índice 4) [20%]
+    q: "5. Analizando la eliminación de redundancias en un ciclo ER: si tenemos DOCENTE - (dicta) - ASIGNATURA - (pertenece) - DEPARTAMENTO - (adscrito) - DOCENTE, ¿bajo qué condición la relación 'adscrito' NO SE PUEDE ELIMINAR por conservar semántica propia?",
+    options: [
+      "A) Cuando la relación 'adscrito' no posee ningún atributo propio asignado.",
+      "B) Cuando la cardinalidad máxima de la relación 'dicta' es exactamente (1,1).",
+      "C) Cuando la entidad DEPARTAMENTO es una entidad débil vinculada a FACULTAD.",
+      "D) Cuando todos los docentes dictan exactamente una asignatura por departamento.",
+      "E) Cuando existen docentes que colaboran dictando asignaturas en departamentos distintos a los de su adscripción formal o docentes que no dictan asignaturas actualmente."
+    ],
+    correct: 4,
+    expl: "Si un docente dicta asignaturas en otros departamentos o no dicta clases en el ciclo actual, la ruta indirecta no permite deducir a qué departamento pertenece oficialmente; por ende, 'adscrito' no es redundante y debe mantenerse (Manual, Cap. IV)."
+  },
+  {
+    // PREGUNTA 6 -> CORRECTA: A (índice 0) [20%]
+    q: "6. En la notación IDEF1X soportada por herramientas como PowerDesigner, ¿cómo se representa gráficamente la restricción de dependencia de identificación entre entidades?",
+    options: [
+      "A) Mediante rectángulos con esquinas redondeadas para las entidades dependientes y una línea de conexión continua con un punto en el extremo.",
+      "B) Mediante óvalos dobles concéntricos unidas por líneas punteadas verdes.",
+      "C) Mediante rombos sombreados que contienen las letras 't' y 'e'.",
+      "D) Colocando el recuadro de la subentidad dentro de la entidad genérica madre.",
+      "E) Dibujando líneas de trazo discontinuo sin conectores circulares."
+    ],
+    correct: 0,
+    expl: "En IDEF1X, las entidades dependientes de identificación se representan con esquinas redondeadas y sus relaciones identificadoras se dibujan con líneas continuas con un punto en su extremo (Manual, Cap. IV)."
+  },
+  {
+    // PREGUNTA 7 -> CORRECTA: B (índice 1) [20%]
+    q: "7. En Sybase Adaptive Server Anywhere (ASA), al configurar una Clave Foránea (FK) con la regla de integridad referencial 'Set dependent columns to NULL' (SET NULL), ¿qué ocurre al ejecutar un DELETE sobre la tupla padre?",
+    options: [
+      "A) El gestor aborta la transacción notificando una violación estricta de clave ajena.",
+      "B) Se elimina la tupla padre y el gestor actualiza automáticamente los campos de la clave foránea en los registros hijos asignándoles el valor NULL.",
+      "C) Se eliminan en cascada la tupla padre y todos sus registros asociados en la tabla hija.",
+      "D) Las claves primarias de las filas hijas se recalculan mediante secuencias numéricas.",
+      "E) La operación se bloquea hasta que el usuario elimine manualmente los registros hijos."
     ],
     correct: 1,
-    expl: "El Enfoque Orientado a los Datos sigue la secuencia obligatoria: Requerimientos -> Diseño Conceptual -> Diseño Lógico -> Diseño Físico (Manual, Cap. I)."
+    expl: "La regla SET NULL preserva las filas hijas en la base de datos, pero rompe la vinculación referencial asignando NULL a los campos de la FK al borrar el registro padre relacionado (Manual, Cap. VII)."
   },
   {
-    q: "En el Caso del Banco resuelto mediante la Estrategia Mixta, ¿por qué la relación 'solicita' (préstamos) se conecta explícitamente a la subentidad FIJO y no a la superentidad EMPLEADO?",
+    // PREGUNTA 8 -> CORRECTA: C (índice 2) [20%]
+    q: "8. De acuerdo con el enfoque orientado a los datos para el diseño de bases de datos de Batini/Ceri/Navathe, ¿cuál es el orden metodológico secuencial correcto de las fases de desarrollo?",
     options: [
-      "Porque los empleados temporales no poseen número de DNI registrado.",
-      "Porque el negocio establece una restricción donde únicamente los empleados de contrato fijo poseen el derecho normativo de solicitar préstamos.",
-      "Para evitar la creación de un ciclo de relaciones entre CIUDAD y AGENCIA.",
-      "Porque la subentidad TEMPORAL utiliza una clave primaria diferente al código de empleado."
-    ],
-    correct: 1,
-    expl: "Conectar la relación a la subentidad FIJO refleja semánticamente la regla de negocio: solo los fijos pueden pedir préstamos, evitando que los temporales tengan acceso a esta relación (S04 y Manual Cap. V)."
-  },
-  {
-    q: "En la estrategia de modelado CENTRÍFUGA para el diseño conceptual de esquemas:",
-    options: [
-      "Se parte de la lista completa de todos los atributos desestructurados del sistema para agruparlos progresivamente.",
-      "Se parte del armazón general de entidades principales para dividirlas en módulos que luego se integran.",
-      "Se selecciona el concepto/entidad más importante o evidente y el esquema se expande progresivamente hacia afuera como una mancha de aceite.",
-      "Se aplican exclusivamente las primitivas ascendentes A-1 y A-2 sin realizar refinamientos."
+      "A) Requerimientos de datos -> Diseño Lógico -> Diseño Físico -> Esquema Conceptual.",
+      "B) Diseño Físico -> Normalización BCNF -> Diseño Conceptual -> Implementación.",
+      "C) Requerimientos de datos -> Diseño Conceptual -> Diseño Lógico -> Diseño Físico.",
+      "D) Diseño Inicial -> Normalización 3FN -> Estrategia Mixta -> Implementación SQL.",
+      "E) Esquema Conceptual -> Diseño Físico -> Análisis de Requerimientos -> Diseño Lógico."
     ],
     correct: 2,
-    expl: "La estrategia centrífuga fija primero el núcleo o concepto central más importante y luego va agregando conceptos en anillos concéntricos navegando hacia lo exterior, como una mancha de aceite (Manual, Cap. V)."
+    expl: "El Enfoque Orientado a los Datos establece la secuencia lógica obligatoria: Análisis de Requerimientos -> Diseño Conceptual -> Diseño Lógico -> Diseño Físico (Manual, Cap. I)."
+  },
+  {
+    // PREGUNTA 9 -> CORRECTA: D (índice 3) [20%]
+    q: "9. En el Caso del Banco resuelto mediante la Estrategia Mixta, ¿por qué la relación 'solicita' (préstamos) se conecta explícitamente a la subentidad FIJO y no a EMPLEADO?",
+    options: [
+      "A) Porque los empleados temporales no poseen número de DNI registrado.",
+      "B) Para evitar la creación de ciclos de relaciones redundantes entre CIUDAD y AGENCIA.",
+      "C) Porque la subentidad TEMPORAL utiliza una clave primaria distinta al código de empleado.",
+      "D) Porque las reglas de negocio establecen que únicamente el personal de contrato fijo posee la atribución de solicitar préstamos.",
+      "E) Porque la subentidad FIJO es una entidad débil que depende de TIPO_PRÉSTAMO."
+    ],
+    correct: 3,
+    expl: "Conectar la relación 'solicita' a la subentidad FIJO garantiza la regla de negocio que prohíbe que los empleados temporales accedan a solicitudes de préstamos (S04 y Manual, Cap. V)."
+  },
+  {
+    // PREGUNTA 10 -> CORRECTA: E (índice 4) [20%]
+    q: "10. En la estrategia de modelado CENTRÍFUGA para el diseño conceptual de esquemas de bases de datos:",
+    options: [
+      "A) Se parte del listado completo de atributos desestructurados para agruparlos en entidades.",
+      "B) Se parte de un armazón general de entidades principales para dividirlas en módulos separados.",
+      "C) Se aplican exclusivamente las primitivas ascendentes A-1 y A-2 sin realizar refinamientos descendentes.",
+      "D) Se diseñan primero los índices físicos para construir las tablas del sistema desde la periferia.",
+      "E) Se selecciona el concepto o entidad central más importante y el esquema se expande progresivamente hacia afuera como una mancha de aceite."
+    ],
+    correct: 4,
+    expl: "La estrategia centrífuga fija primero la entidad núcleo más representativa y va incorporando los conceptos adyacentes en anillos concéntricos expandiéndose como una mancha de aceite (Manual, Cap. V)."
   }
 ];
 
@@ -686,11 +706,12 @@ function renderAdvancedQuiz() {
             const fueCorrecta = st && st.isCorrect;
             const fueAgotado = st && st.timeout;
             let statusBadge = fueCorrecta 
-              ? '<span style="color:#059669; font-weight:bold;">[CORRECTA]</span>' 
-              : (fueAgotado ? '<span style="color:#d97706; font-weight:bold;">[TIEMPO AGOTADO]</span>' : '<span style="color:#dc2626; font-weight:bold;">[INCORRECTA]</span>');
+              ? '<span style="color:#059669; font-weight:bold;"> [CORRECTA]</span>' 
+              : (fueAgotado ? '<span style="color:#d97706; font-weight:bold;"> [TIEMPO AGOTADO]</span>' : '<span style="color:#dc2626; font-weight:bold;"> [INCORRECTA]</span>');
             return `
-              <div style="margin:10px 0; padding:10px; background:#f8fafc; border-radius:6px; border:1px solid #cbd5e1;">
+              <div style="margin:10px 0; padding:12px; background:#f8fafc; border-radius:6px; border:1px solid #cbd5e1;">
                 <p><b>P${idx + 1}:</b> ${qObj.q}${statusBadge}</p>
+                <p style="font-size:0.9rem; color:#1e3a8a; margin-top:5px;"><b>Respuesta correcta:</b> <i>${qObj.options[qObj.correct]}</i></p>
                 <p style="font-size:0.88rem; color:#475569; margin-top:4px;"><i>Justificación:</i> ${qObj.expl}</p>
               </div>
             `;
@@ -784,7 +805,6 @@ function handleAdvTimeout() {
     timeout: true
   };
 
-  // Deshabilitar entradas de opción
   document.querySelectorAll('input[name="adv_opt"]').forEach(inp => inp.disabled = true);
   const subBtn = document.getElementById('adv-submit-btn');
   if (subBtn) subBtn.disabled = true;
@@ -793,8 +813,8 @@ function handleAdvTimeout() {
     fb.innerHTML = `
       <div class="alert alert-danger" style="text-align:left; margin-top:10px;">
         <b>⏰ ¡Tiempo agotado! (120 segundos transcurridos).</b><br>
-        La respuesta correcta era: <i>"${q.options[q.correct]}"</i>.<br>
-        <small><b>Explicación:</b> ${q.expl}</small>
+        <b>La respuesta correcta era:</b> <span style="text-decoration:underline;">${q.options[q.correct]}</span><br>
+        <small style="display:block; margin-top:5px;"><b>Explicación:</b> ${q.expl}</small>
       </div>
     `;
   }
@@ -836,9 +856,9 @@ function submitAdvAnswer() {
   } else {
     fb.innerHTML = `
       <div class="alert alert-danger" style="text-align:left; margin-top:10px;">
-        <b>Respuesta Incorrecta.</b><br>
-        La alternativa correcta era: <i>"${q.options[q.correct]}"</i>.<br>
-        <small><b>Explicación:</b> ${q.expl}</small>
+        <b>❌ Respuesta Incorrecta.</b><br>
+        <b>La opción correcta era:</b> <span style="text-decoration:underline;">${q.options[q.correct]}</span><br>
+        <small style="display:block; margin-top:5px;"><b>Explicación:</b> ${q.expl}</small>
       </div>
     `;
   }
