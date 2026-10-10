@@ -8,8 +8,18 @@ function showMainSection(secId) {
   const activeSec = document.getElementById(`sec-${secId}`);
   if (activeSec) activeSec.classList.add('active');
 
-  const activeBtn = Array.from(document.querySelectorAll('.nav-btn')).find(b => b.getAttribute('onclick').includes(secId));
+  const activeBtn = Array.from(document.querySelectorAll('.nav-btn')).find(b => {
+    const onclickAttr = b.getAttribute('onclick');
+    return onclickAttr && onclickAttr.includes(`'${secId}'`);
+  });
   if (activeBtn) activeBtn.classList.add('active');
+
+  // Si se cambia de sección, pausar el cronómetro del test avanzado si estuviera corriendo
+  if (secId !== 'test-avanzado' && timerInterval) {
+    clearInterval(timerInterval);
+  } else if (secId === 'test-avanzado' && advCurrentIndex < ADVANCED_QUESTIONS.length && !advAnswersState[advCurrentIndex]) {
+    startAdvTimer();
+  }
 }
 
 
@@ -210,7 +220,7 @@ let currentOptionsList = [];
 function switchQuiz(mode) {
   if (currentMode === mode) return;
   currentMode = mode;
-  document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+  document.querySelectorAll('#sec-test .tab-btn').forEach(btn => btn.classList.remove('active'));
   document.querySelector(`[onclick="switchQuiz('${mode}')"]`).classList.add('active');
   initQuiz(mode);
 }
@@ -253,7 +263,7 @@ function renderQuestion() {
 function checkAnswer(selectedId, selectedBtn) {
   const current = quizQuestions[currentQuestionIndex];
   const alertBox = document.getElementById('feedback-alert');
-  const allBtns = document.querySelectorAll('.option-btn');
+  const allBtns = document.querySelectorAll('#options-grid .option-btn');
 
   allBtns.forEach(btn => btn.disabled = true);
 
@@ -301,7 +311,7 @@ function showQuizResults() {
 
 
 // =================================================================
-// 3. SECCIÓN DE PRÁCTICA CON BANCO DE PREGUNTAS (DATALAB)
+// 3. SECCIÓN DE PRÁCTICA CON BANCO DE PREGUNTAS
 // =================================================================
 const QS = [
   ['g','Básico','En un esquema E/R, ¿qué es un atributo?',['Una asociación entre dos entidades','Una propiedad que describe a una entidad o relación','Un grupo de entidades parecidas'],1,'Los atributos describen propiedades: nombre y DNI de FUTBOLISTA, o fecha de «compra».'],
@@ -404,9 +414,8 @@ function restartPractica() {
 
 
 // =================================================================
-// 4. SECCIÓN DE RESOLVER PROBLEMAS - CASO BANCO (DATALAB)
+// 4. SECCIÓN DE RESOLVER PROBLEMAS - CASO BANCO
 // =================================================================
-// Helpers SVG para el diagrama del Banco
 const V = (w, h, c) => `<svg viewBox="0 0 ${w} ${h}">${c}</svg>`;
 const B = (x, y, t, w = 110) => `<g class="e"><rect x="${x}" y="${y}" width="${w}" height="34" rx="4"/><text x="${x + w / 2}" y="${y + 21}">${t}</text></g>`;
 const D_svg = (x, y, t) => `<g class="r"><polygon points="${x - 52},${y} ${x},${y - 24} ${x + 52},${y} ${x},${y + 24}"/><text x="${x}" y="${y + 4}">${t}</text></g>`;
@@ -529,10 +538,333 @@ function changeLabView(vIdx) {
 
 
 // =================================================================
-// 5. INICIALIZACIÓN GENERAL
+// 5. NUEVA SECCIÓN: TEST AVANZADO DE 10 PREGUNTAS CON CRONÓMETRO (120s)
+// =================================================================
+const ADVANCED_QUESTIONS = [
+  {
+    q: "En el contexto de la Arquitectura ANSI/X3/SPARC de 3 niveles para SGBD, ¿cuál de las siguientes afirmaciones describe con precisión la 'Independencia Lógica de Datos'?",
+    options: [
+      "Capacidad de modificar el esquema conceptual sin obligar a reescribir los programas de aplicación que acceden a la base de datos.",
+      "Capacidad de cambiar los discos físicos o estructuras de almacenamiento secundario sin alterar el esquema conceptual.",
+      "Capacidad de migrar entre distintos gestores de bases de datos relacionales (SGBD) sin cambiar el código COBOL/C.",
+      "Capacidad de eliminar claves primarias sin afectar los atributos derivados de las subentidades."
+    ],
+    correct: 0,
+    expl: "La Independencia Lógica de Datos es la capacidad de modificar el esquema conceptual sin provocar que se vuelvan a escribir los programas de aplicación (Manual, Cap. I)."
+  },
+  {
+    q: "Al comparar las Primitivas Descendentes D-6, D-7 y D-8, ¿cuál es la diferencia semántica fundamental entre D-6 y D-7 según la metodología del Dr. Caselli?",
+    options: [
+      "D-6 transforma una entidad en una jerarquía, mientras D-7 descompone relaciones en paralelas.",
+      "D-6 desarrolla atributos simples en entidades y relaciones, mientras D-7 desarrolla atributos compuestos integradores.",
+      "D-6 agrega claves primarias externas, mientras D-7 refina las cardinalidades de (0,1) a (1,n).",
+      "D-6 genera nuevas entidades independientes, mientras D-7 elimina ciclos de relaciones redundantes."
+    ],
+    correct: 1,
+    expl: "D-6 corresponde al desarrollo de atributos simples en entidades o relaciones, mientras que D-7 trata específicamente el desarrollo de atributos compuestos (Manual, Cap. V)."
+  },
+  {
+    q: "En una jerarquía de generalización entre la superentidad ESTUDIANTE y los subtipos INGENIERÍA e IDIOMAS con cobertura marcante (p, s), ¿qué restricción real de negocio se está modelando?",
+    options: [
+      "Todos los estudiantes pertenecen a Ingeniería o Idiomas, pero ninguno puede estar matriculado en ambas a la vez.",
+      "No todos los estudiantes pertenecen a esas dos áreas (parcial) y un estudiante puede estar matriculado en ambas simultáneamente (superpuesta).",
+      "Es obligatorio que el estudiante pertenezca a ambas carreras a la vez (total y superpuesta).",
+      "Un estudiante solo puede pertenecer a Idiomas si previamente aprobó la carrera de Ingeniería (exclusiva)."
+    ],
+    correct: 1,
+    expl: "(p,s) significa Parcial y Superpuesta: existen otros tipos de estudiantes no contemplados en el modelo (parcial) y un estudiante puede estar en Ingeniería e Idiomas a la vez (superpuesta)."
+  },
+  {
+    q: "En el caso del Campeonato de Ajedrez, ¿por qué la entidad SALA se clasifica técnicamente como una Entidad Débil?",
+    options: [
+      "Porque no tiene atributos propios ni medios tecnológicos como TV o Internet.",
+      "Porque su existencia y clave de identificación dependen de la entidad fuerte HOTEL (requiere la clave compuesta HOTEL + Núm_sala).",
+      "Porque está conectada únicamente mediante una relación recursiva de orden N:M.",
+      "Porque no puede celebrar partidas durante las jornadas de descanso."
+    ],
+    correct: 1,
+    expl: "SALA es una entidad débil con respecto a HOTEL porque su identificador depende directamente de la clave del HOTEL al que pertenece (Manual, Cap. II y VI)."
+  },
+  {
+    q: "Analizando la eliminación de redundancias en un ciclo ER: si tenemos DOCENTE - (dicta) - ASIGNATURA - (pertenece) - DEPARTAMENTO - (adscrito) - DOCENTE, ¿bajo qué condición la relación 'adscrito' NO SE PUEDE ELIMINAR por no ser redundante?",
+    options: [
+      "Cuando la relación 'adscrito' no contiene atributos propios.",
+      "Cuando existen docentes que colaboran dictando asignaturas de otros departamentos distintos al de su adscripción formal o cuando hay docentes sin asignaturas a cargo.",
+      "Cuando la cardinalidad máxima de la relación 'dicta' es exactamente (1,1).",
+      "Cuando la entidad DEPARTAMENTO es una entidad débil vinculada a FACULTAD."
+    ],
+    correct: 1,
+    expl: "Si un docente puede dictar en departamentos ajenos o no dictar cursos, la ruta del ciclo no permite deducir con certeza a qué departamento está adscrito. Por ende, la relación 'adscrito' conserva semántica indispensable y no es redundante (Manual, Cap. IV)."
+  },
+  {
+    q: "En la notación IDEF1X soportada por herramientas como PowerDesigner, ¿cómo se representa la restricción de dependencia e identificación entre entidades?",
+    options: [
+      "Mediante óvalos dobles y líneas punteadas verdes.",
+      "Mediante la forma de los rectángulos (esquinas redondeadas para entidades dependientes/débiles) y líneas de conexión continuas con un punto en el extremo.",
+      "Mediante rombos sombreados con letras 't' y 'e'.",
+      "Colocando la entidad subconjunto dentro del cuadro físico de la entidad genérica."
+    ],
+    correct: 1,
+    expl: "En IDEF1X, las entidades dependientes se identifican gráficamente con esquinas redondeadas y sus conexiones de identificación llevan líneas continuas terminadas en un punto (Manual, Cap. IV)."
+  },
+  {
+    q: "En Sybase Adaptive Server Anywhere (ASA), al configurar una Clave Foránea (FK) con la regla de integridad referencial 'Set dependent columns to NULL' (SET NULL), ¿qué ocurre al ejecutar una sentencia DELETE sobre la tupla padre en la tabla principal?",
+    options: [
+      "El gestor aborta la transacción notificando una violación de restricción referencial.",
+      "Se eliminan automáticamente todos los registros asociados en la tabla hija.",
+      "Se borra la tupla padre y el gestor actualiza las columnas de la clave foránea en los registros hijos asignándoles el valor NULL.",
+      "Las claves primarias de los hijos se recalculan usando una función correlativa."
+    ],
+    correct: 2,
+    expl: "La regla SET NULL mantiene las filas hijas en la base de datos, pero limpia el vínculo colocando NULL en el campo de la clave ajena al eliminar la fila padre asociada (Manual, Cap. VII)."
+  },
+  {
+    q: "De acuerdo con el enfoque orientado a los datos para el diseño de bases de datos de Batini/Ceri/Navathe, ¿cuál es el orden correcto de las fases de desarrollo?",
+    options: [
+      "Requerimientos de datos -> Diseño Lógico -> Diseño Físico -> Esquema Conceptual.",
+      "Requerimientos de datos -> Diseño Conceptual -> Diseño Lógico -> Diseño Físico.",
+      "Diseño Físico -> Normalización -> Diseño Conceptual -> Esquema Lógico.",
+      "Diseño Inicial -> Normalización BCNF -> Estrategia Mixta -> Implementación SQL."
+    ],
+    correct: 1,
+    expl: "El Enfoque Orientado a los Datos sigue la secuencia obligatoria: Requerimientos -> Diseño Conceptual -> Diseño Lógico -> Diseño Físico (Manual, Cap. I)."
+  },
+  {
+    q: "En el Caso del Banco resuelto mediante la Estrategia Mixta, ¿por qué la relación 'solicita' (préstamos) se conecta explícitamente a la subentidad FIJO y no a la superentidad EMPLEADO?",
+    options: [
+      "Porque los empleados temporales no poseen número de DNI registrado.",
+      "Porque el negocio establece una restricción donde únicamente los empleados de contrato fijo poseen el derecho normativo de solicitar préstamos.",
+      "Para evitar la creación de un ciclo de relaciones entre CIUDAD y AGENCIA.",
+      "Porque la subentidad TEMPORAL utiliza una clave primaria diferente al código de empleado."
+    ],
+    correct: 1,
+    expl: "Conectar la relación a la subentidad FIJO refleja semánticamente la regla de negocio: solo los fijos pueden pedir préstamos, evitando que los temporales tengan acceso a esta relación (S04 y Manual Cap. V)."
+  },
+  {
+    q: "En la estrategia de modelado CENTRÍFUGA para el diseño conceptual de esquemas:",
+    options: [
+      "Se parte de la lista completa de todos los atributos desestructurados del sistema para agruparlos progresivamente.",
+      "Se parte del armazón general de entidades principales para dividirlas en módulos que luego se integran.",
+      "Se selecciona el concepto/entidad más importante o evidente y el esquema se expande progresivamente hacia afuera como una mancha de aceite.",
+      "Se aplican exclusivamente las primitivas ascendentes A-1 y A-2 sin realizar refinamientos."
+    ],
+    correct: 2,
+    expl: "La estrategia centrífuga fija primero el núcleo o concepto central más importante y luego va agregando conceptos en anillos concéntricos navegando hacia lo exterior, como una mancha de aceite (Manual, Cap. V)."
+  }
+];
+
+let advCurrentIndex = 0;
+let advAnswersState = {};
+let advTimerSeconds = 120;
+let timerInterval = null;
+
+function renderAdvancedQuiz() {
+  const container = document.getElementById('advanced-quiz-container');
+  const total = ADVANCED_QUESTIONS.length;
+
+  if (advCurrentIndex >= total) {
+    if (timerInterval) clearInterval(timerInterval);
+    let aciertos = 0;
+    for (let i = 0; i < total; i++) {
+      if (advAnswersState[i] && advAnswersState[i].isCorrect) {
+        aciertos++;
+      }
+    }
+    let pct = Math.round((aciertos / total) * 100);
+
+    let htmlResumen = `
+      <div class="card" style="text-align:center;">
+        <h3>🏆 Resultado Final del Examen Avanzado</h3>
+        <p style="font-size:1.2rem; margin:15px 0;">Respuestas Correctas: <b>${aciertos}</b> de <b>${total}</b></p>
+        <div class="bar" style="height:18px;"><i style="width:${pct}%"></i></div>
+        <p style="font-size:1.1rem; font-weight:bold; color:#1e3a8a; margin-top:10px;">Puntuación General: ${pct}%</p>
+        
+        <div style="text-align:left; margin-top:25px; border-top:2px solid #e2e8f0; padding-top:15px;">
+          <h4>Desglose detallado por pregunta:</h4>
+          ${ADVANCED_QUESTIONS.map((qObj, idx) => {
+            const st = advAnswersState[idx];
+            const fueCorrecta = st && st.isCorrect;
+            const fueAgotado = st && st.timeout;
+            let statusBadge = fueCorrecta 
+              ? '<span style="color:#059669; font-weight:bold;">[CORRECTA]</span>' 
+              : (fueAgotado ? '<span style="color:#d97706; font-weight:bold;">[TIEMPO AGOTADO]</span>' : '<span style="color:#dc2626; font-weight:bold;">[INCORRECTA]</span>');
+            return `
+              <div style="margin:10px 0; padding:10px; background:#f8fafc; border-radius:6px; border:1px solid #cbd5e1;">
+                <p><b>P${idx + 1}:</b> ${qObj.q}${statusBadge}</p>
+                <p style="font-size:0.88rem; color:#475569; margin-top:4px;"><i>Justificación:</i> ${qObj.expl}</p>
+              </div>
+            `;
+          }).join('')}
+        </div>
+
+        <button class="btn btn-primary" onclick="restartAdvancedQuiz()" style="margin-top:20px;">Reiniciar Examen Exigente</button>
+      </div>
+    `;
+    container.innerHTML = htmlResumen;
+    return;
+  }
+
+  const q = ADVANCED_QUESTIONS[advCurrentIndex];
+  
+  let html = `
+    <div class="timer-header">
+      <div>
+        <span>Pregunta <b>${advCurrentIndex + 1}</b> de <b>${total}</b></span>
+      </div>
+      <div id="adv-timer-display" class="timer-box">
+        ⏱️ Tiempo restante: <span id="timer-sec">120</span>s
+      </div>
+    </div>
+
+    <div class="bar"><i style="width:${(advCurrentIndex / total) * 100}%"></i></div>
+
+    <div class="q">
+      <p style="font-size:1.05rem; margin-bottom:12px;"><b>${q.q}</b></p>
+      
+      <div id="adv-options-group">
+        ${q.options.map((opt, j) => `
+          <label class="adv-option-label">
+            <input type="radio" name="adv_opt" value="${j}">
+            <span>${opt}</span>
+          </label>
+        `).join('')}
+      </div>
+
+      <div style="margin-top:15px;">
+        <button id="adv-submit-btn" class="btn btn-primary" onclick="submitAdvAnswer()">Confirmar Respuesta</button>
+      </div>
+
+      <div id="adv-fb" class="fb"></div>
+    </div>
+
+    <div class="actions">
+      <button id="adv-next-btn" class="btn btn-primary hidden" onclick="nextAdvQuestion()">${advCurrentIndex === total - 1 ? 'Finalizar Examen' : 'Siguiente Pregunta &rarr;'}</button>
+    </div>
+  `;
+
+  container.innerHTML = html;
+  startAdvTimer();
+}
+
+function startAdvTimer() {
+  if (timerInterval) clearInterval(timerInterval);
+  advTimerSeconds = 120;
+  
+  const timerDisplay = document.getElementById('adv-timer-display');
+  const timerSec = document.getElementById('timer-sec');
+
+  if (timerSec) timerSec.innerText = advTimerSeconds;
+
+  timerInterval = setInterval(() => {
+    advTimerSeconds--;
+    if (timerSec) timerSec.innerText = advTimerSeconds;
+
+    if (timerDisplay) {
+      if (advTimerSeconds <= 20) {
+        timerDisplay.classList.add('warning');
+      } else {
+        timerDisplay.classList.remove('warning');
+      }
+    }
+
+    if (advTimerSeconds <= 0) {
+      clearInterval(timerInterval);
+      handleAdvTimeout();
+    }
+  }, 1000);
+}
+
+function handleAdvTimeout() {
+  const fb = document.getElementById('adv-fb');
+  const q = ADVANCED_QUESTIONS[advCurrentIndex];
+
+  advAnswersState[advCurrentIndex] = {
+    selected: -1,
+    isCorrect: false,
+    timeout: true
+  };
+
+  // Deshabilitar entradas de opción
+  document.querySelectorAll('input[name="adv_opt"]').forEach(inp => inp.disabled = true);
+  const subBtn = document.getElementById('adv-submit-btn');
+  if (subBtn) subBtn.disabled = true;
+
+  if (fb) {
+    fb.innerHTML = `
+      <div class="alert alert-danger" style="text-align:left; margin-top:10px;">
+        <b>⏰ ¡Tiempo agotado! (120 segundos transcurridos).</b><br>
+        La respuesta correcta era: <i>"${q.options[q.correct]}"</i>.<br>
+        <small><b>Explicación:</b> ${q.expl}</small>
+      </div>
+    `;
+  }
+
+  document.getElementById('adv-next-btn').classList.remove('hidden');
+}
+
+function submitAdvAnswer() {
+  const selected = document.querySelector('input[name="adv_opt"]:checked');
+  const fb = document.getElementById('adv-fb');
+
+  if (!selected) {
+    if (fb) fb.innerHTML = '<span class="bad">Selecciona una alternativa antes de confirmar.</span>';
+    return;
+  }
+
+  if (timerInterval) clearInterval(timerInterval);
+
+  const selectedIdx = parseInt(selected.value);
+  const q = ADVANCED_QUESTIONS[advCurrentIndex];
+  const isCorrect = selectedIdx === q.correct;
+
+  advAnswersState[advCurrentIndex] = {
+    selected: selectedIdx,
+    isCorrect: isCorrect,
+    timeout: false
+  };
+
+  document.querySelectorAll('input[name="adv_opt"]').forEach(inp => inp.disabled = true);
+  document.getElementById('adv-submit-btn').disabled = true;
+
+  if (isCorrect) {
+    fb.innerHTML = `
+      <div class="alert alert-success" style="text-align:left; margin-top:10px;">
+        <b>¡Respuesta Correcta!</b><br>
+        ${q.expl}
+      </div>
+    `;
+  } else {
+    fb.innerHTML = `
+      <div class="alert alert-danger" style="text-align:left; margin-top:10px;">
+        <b>Respuesta Incorrecta.</b><br>
+        La alternativa correcta era: <i>"${q.options[q.correct]}"</i>.<br>
+        <small><b>Explicación:</b> ${q.expl}</small>
+      </div>
+    `;
+  }
+
+  document.getElementById('adv-next-btn').classList.remove('hidden');
+}
+
+function nextAdvQuestion() {
+  if (timerInterval) clearInterval(timerInterval);
+  advCurrentIndex++;
+  renderAdvancedQuiz();
+}
+
+function restartAdvancedQuiz() {
+  advCurrentIndex = 0;
+  advAnswersState = {};
+  renderAdvancedQuiz();
+}
+
+
+// =================================================================
+// 6. INICIALIZACIÓN GENERAL DE LA APLICACIÓN
 // =================================================================
 document.addEventListener('DOMContentLoaded', () => {
   initQuiz('descendentes');
   initPracticaSection();
   renderLabSection();
+  renderAdvancedQuiz();
 });

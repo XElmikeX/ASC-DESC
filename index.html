@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Primitivas de Modelado Conceptual - Sitio Educativo</title>
   <link rel="stylesheet" href="decorate.css">
-
   <link rel="icon" href="xd.png">
 </head>
 <body>
@@ -14,9 +13,10 @@
     <h1>Primitivas Ascendentes y Descendentes</h1>
     <p>Plataforma educativa de aprendizaje, evaluación y resolución de problemas de transformaciones conceptuales</p>
     <nav class="main-nav">
-      <button class="nav-btn active" onclick="showMainSection('test')">Identificación de Primitivas</button>
+      <button class="nav-btn active" onclick="showMainSection('test')">Identificación Visual</button>
       <button class="nav-btn" onclick="showMainSection('practica')">Práctica Evaluativa</button>
-      <button class="nav-btn" onclick="showMainSection('lab')">Resolver Problemas (Caso Banco)</button>
+      <button class="nav-btn" onclick="showMainSection('lab')">Caso Banco (DESC)</button>
+      <button class="nav-btn highlight-nav" onclick="showMainSection('test-avanzado')">⏱️ Test Avanzado (120s)</button>
     </nav>
   </header>
 
@@ -34,7 +34,6 @@
         <span id="question-number">Pregunta 1 de 8</span>
       </div>
 
-      <!-- Esquemas superior -->
       <div class="schemas-container">
         <div class="schema-box">
           <h4>Esquema Inicial</h4>
@@ -46,34 +45,41 @@
         </div>
       </div>
 
-      <!-- Alertas de retroalimentación -->
       <div id="feedback-alert" class="alert hidden"></div>
 
-      <!-- Alternativas inferior -->
       <div class="options-container">
         <p><strong>Selecciona la primitiva correspondiente:</strong></p>
         <div id="options-grid" class="options-grid"></div>
       </div>
 
-      <!-- Botón Siguiente -->
       <div class="actions">
         <button id="next-btn" class="btn btn-primary hidden" onclick="nextQuestion()">Siguiente Pregunta &rarr;</button>
       </div>
     </section>
 
-    <!-- SECCIÓN 2: PRÁCTICA CON BANCO DE PREGUNTAS (DATALAB) -->
+    <!-- SECCIÓN 2: PRÁCTICA CON BANCO DE PREGUNTAS -->
     <section id="sec-practica" class="card main-sec">
       <h2>Práctica Evaluativa y Conceptos E/R</h2>
       <div id="practica-container"></div>
     </section>
 
-    <!-- SECCIÓN 3: RESOLVER PROBLEMAS - CASO BANCO (DATALAB) -->
+    <!-- SECCIÓN 3: RESOLVER PROBLEMAS - CASO BANCO -->
     <section id="sec-lab" class="card main-sec">
       <h2>Caso de Estudio: Personal de la Entidad Bancaria</h2>
       <p class="note int">Problema de diseño conceptual resuelto paso a paso mediante la estrategia descendente (DESC).</p>
       
       <div id="lab-tabs" class="tabs"></div>
       <div id="lab-content" class="lab-card-body"></div>
+    </section>
+
+    <!-- SECCIÓN 4: NUEVO TEST AVANZADO CON CRONÓMETRO DE 120s -->
+    <section id="sec-test-avanzado" class="card main-sec">
+      <h2>Examen de Alto Nivel: Diseño Conceptual & SGBD</h2>
+      <p class="note">Evaluación de 10 preguntas complejas extraídas minuciosamente de la literatura técnica del curso. Tienes <b>120 segundos</b> por pregunta.</p>
+      
+      <div id="advanced-quiz-container">
+        <!-- Renderizado dinámico desde JavaScript -->
+      </div>
     </section>
 
   </main>
