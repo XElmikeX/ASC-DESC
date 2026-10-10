@@ -538,138 +538,139 @@ function changeLabView(vIdx) {
 
 
 // =================================================================
-// 5. TEST AVANZADO: 10 PREGUNTAS / 5 ALTERNATIVAS / RESPUESTAS EXCLUSIVAS EN A (60%) Y D (40%)
+// 5. TEST AVANZADO: 10 PREGUNTAS (HASTA PÁGINA 80 DEL MANUAL)
+// DISTRIBUCIÓN DE RESPUESTAS: 60% Opción A (6 preguntas), 40% Opción D (4 preguntas)
 // =================================================================
 const ADVANCED_QUESTIONS = [
   {
-    // PREGUNTA 1 -> CORRECTA: A (índice 0)
-    q: "1. En el contexto de la Arquitectura ANSI/X3/SPARC de 3 niveles para SGBD, ¿cuál de las siguientes afirmaciones describe con precisión la 'Independencia Lógica de Datos'?",
+    // PREGUNTA 1 -> CORRECTA: A (Pág. 1-15 del Manual: Arquitectura ANSI/X3/SPARC)
+    q: "1. En la arquitectura de tres niveles ANSI/X3/SPARC de SGBD, ¿cómo se define la 'Independencia Lógica de Datos'?",
     options: [
-      "A) Capacidad de modificar el esquema conceptual sin obligar a reescribir los programas de aplicación que acceden a la base de datos.",
-      "B) Capacidad de cambiar las estructuras de almacenamiento en disco físico sin alterar el esquema conceptual.",
-      "C) Capacidad de migrar entre distintos gestores de bases de datos relacionales sin modificar el código fuente de la aplicación.",
-      "D) Capacidad de eliminar claves primarias sin afectar los atributos derivados de las subentidades.",
-      "E) Capacidad de transformar esquemas ER a relacionales de forma automática mediante algoritmos compilados."
+      "A) Es la capacidad de modificar el esquema conceptual sin alterar los esquemas externos ni los programas de aplicación.",
+      "B) Es la capacidad de cambiar la representación física en disco sin modificar el esquema conceptual.",
+      "C) Es la posibilidad de migrar la base de datos entre distintos sistemas operativos de red.",
+      "D) Es la propiedad de eliminar identificadores primarios sin afectar los atributos compuestos.",
+      "E) Es el proceso automatizado de traducción de diagramas ER a tablas relacionales."
     ],
     correct: 0,
-    expl: "La Independencia Lógica de Datos es la capacidad de modificar el esquema conceptual (añadir/eliminar entidades o campos) sin provocar que se tengan que reescribir las aplicaciones de usuario (Manual, Cap. I)."
+    expl: "La Independencia Lógica (Manual, Cap. I) permite modificar el esquema conceptual (añadir o alterar entidades y atributos) sin forzar modificaciones en las vistas externas o programas de usuario."
   },
   {
-    // PREGUNTA 2 -> CORRECTA: D (índice 3)
-    q: "2. Al comparar las Primitivas Descendentes D-6, D-7 y D-8, ¿cuál es la diferencia semántica fundamental entre D-6 y D-7 según la metodología del Dr. Caselli?",
+    // PREGUNTA 2 -> CORRECTA: D (Pág. 45-65 del Manual: Primitivas D-6 y D-7)
+    q: "2. Dentro de las Primitivas Descendentes de la metodología del Dr. Caselli, ¿cuál es la diferencia exacta entre D-6 y D-7?",
     options: [
-      "A) D-6 transforma una entidad en una jerarquía, mientras D-7 descompone relaciones en paralelas.",
-      "B) D-6 agrega claves primarias externas, mientras D-7 refina las cardinalidades de (0,1) a (1,n).",
-      "C) D-6 genera nuevas entidades independientes, mientras D-7 elimina ciclos de relaciones redundantes.",
-      "D) D-6 desarrolla atributos simples en entidades o relaciones, mientras D-7 trata específicamente el desarrollo de atributos compuestos.",
-      "E) D-6 agrupa entidades similares, mientras D-7 fusiona relaciones jerárquicas."
+      "A) D-6 convierte una entidad en subentidades y D-7 transforma relaciones genéricas en paralelas.",
+      "B) D-6 asigna claves primarias externas y D-7 refina las cardinalidades mínimas.",
+      "C) D-6 añade entidades independientes al esquema y D-7 elimina ciclos redundantes.",
+      "D) D-6 corresponde al desarrollo de atributos simples en entidades/relaciones, mientras D-7 realiza el desarrollo de atributos compuestos.",
+      "E) D-6 agrupa conjuntos de entidades y D-7 establece jerarquías con coberturas exclusivas."
     ],
     correct: 3,
-    expl: "D-6 corresponde al desarrollo de atributos simples asociándolos a entidades o relaciones, mientras que D-7 desglosa atributos compuestos en sus componentes (Manual, Cap. V)."
+    expl: "La primitiva D-6 agrega atributos simples a elementos del esquema, mientras que D-7 desglosa o desarrolla atributos compuestos en sus componentes (Manual, Cap. V)."
   },
   {
-    // PREGUNTA 3 -> CORRECTA: A (índice 0)
-    q: "3. En una jerarquía de generalización entre la superentidad ESTUDIANTE y los subtipos INGENIERÍA e IDIOMAS con cobertura marcante (p, s), ¿qué restricción real de negocio se está modelando?",
+    // PREGUNTA 3 -> CORRECTA: A (Pág. 25-40 del Manual: Jerarquías de Especialización/Generalización)
+    q: "3. En un esquema E/R con una jerarquía sobre ESTUDIANTE con subentidades INGENIERÍA e IDIOMAS y cobertura (p,s), ¿cuál es su significado semántico?",
     options: [
-      "A) Existen estudiantes que no pertenecen a ninguna de esas dos carreras (parcial) y un estudiante puede estar matriculado en ambas a la vez (superpuesta).",
-      "B) Todos los estudiantes pertenecen obligatoriamente a Ingeniería o Idiomas, pero ninguno a ambas simultáneamente.",
-      "C) Es obligatorio que el estudiante pertenezca a ambas carreras a la vez.",
-      "D) Un estudiante solo puede pertenecer a Idiomas si previamente concluyó la carrera de Ingeniería.",
-      "E) La cobertura es total y exclusiva, por lo que las subentidades heredan claves compuestas."
+      "A) Cobertura Parcial y Superpuesta: existen estudiantes no pertenecientes a esas subentidades y un estudiante puede estar en ambas a la vez.",
+      "B) Cobertura Total y Exclusiva: todos pertenecen a una subentidad y ningún estudiante a ambas.",
+      "C) Cobertura Parcial y Exclusiva: no todos pertenecen a esas carreras, pero nadie puede estar matriculado en ambas simultáneamente.",
+      "D) Cobertura Total y Superpuesta: todo estudiante pertenece a al menos una subentidad y puede pertenecer a ambas.",
+      "E) Cobertura Débil: las subentidades dependen identificadoramente del supertipo mediante claves foráneas."
     ],
     correct: 0,
-    expl: "(p,s) representa Cobertura Parcial y Superpuesta: existen otros tipos de alumnos no contemplados en esas subentidades (parcial) y un alumno puede pertenecer a más de una subentidad a la vez (superpuesta) (Manual, Cap. III)."
+    expl: "La anotación (p,s) indica Parcial (p) porque existen otros tipos de estudiantes no representados en esas subentidades, y Superpuesta (s) porque un alumno puede estar simultáneamente en ambas (Manual, Cap. III)."
   },
   {
-    // PREGUNTA 4 -> CORRECTA: D (índice 3)
-    q: "4. En el diseño de bases de datos para el Campeonato de Ajedrez, ¿por qué la entidad SALA se clasifica técnicamente como una Entidad Débil?",
+    // PREGUNTA 4 -> CORRECTA: D (Pág. 15-30 del Manual: Entidades Débiles)
+    q: "4. En el modelo Entidad-Relación, ¿cuándo se considera formalmente que una entidad es 'Débil por Identificación'?",
     options: [
-      "A) Porque no posee atributos informativos ni medios tecnológicos como TV o Internet.",
-      "B) Porque está conectada únicamente mediante una relación recursiva de orden N:M.",
-      "C) Porque no puede alojar partidas durante las jornadas de descanso de los árbitros.",
-      "D) Porque su existencia y clave de identificación dependen directamente de la entidad fuerte HOTEL (requiere la clave compuesta HOTEL + Núm_sala).",
-      "E) Porque no permite establecer relaciones paralelas con la entidad JUGADOR."
+      "A) Cuando no contiene atributos descriptivos ni claves candidatas alternativas.",
+      "B) Cuando sus instancias no participan obligatoriamente en ninguna relación binaria.",
+      "C) Cuando solo interactúa con el sistema mediante relaciones recursivas de cardinalidad N:M.",
+      "D) Cuando no tiene atributos suficientes para formar una clave primaria propia y requiere la clave de una entidad fuerte vinculada.",
+      "E) Cuando se deriva conceptualmente a partir de un proceso de agregación de atributos compuestos (A-5)."
     ],
     correct: 3,
-    expl: "SALA es una entidad débil de identificación con respecto a HOTEL porque el número de sala solo es único dentro de un hotel específico, requiriendo la clave compuesta del HOTEL para ser identificada (Manual, Cap. II y VI)."
+    expl: "Una entidad débil por identificación carece de una clave propia que distinga de forma unívoca a sus ejemplares, requiriendo añadir la clave primaria de la entidad fuerte de la que depende (Manual, Cap. II y VI)."
   },
   {
-    // PREGUNTA 5 -> CORRECTA: A (índice 0)
-    q: "5. Analizando la eliminación de redundancias en un ciclo ER: si tenemos DOCENTE - (dicta) - ASIGNATURA - (pertenece) - DEPARTAMENTO - (adscrito) - DOCENTE, ¿bajo qué condición la relación 'adscrito' NO SE PUEDE ELIMINAR por conservar semántica propia?",
+    // PREGUNTA 5 -> CORRECTA: A (Pág. 35-50 del Manual: Ciclos y Redundancia en el Modelo ER)
+    q: "5. Al evaluar ciclos de relaciones para eliminar redundancias en un esquema ER conceptual, ¿cuándo NO debe eliminarse una relación aparentemente redundante?",
     options: [
-      "A) Cuando existen docentes que colaboran dictando asignaturas en departamentos distintos a los de su adscripción formal o docentes que no dictan asignaturas actualmente.",
-      "B) Cuando la cardinalidad máxima de la relación 'dicta' es exactamente (1,1).",
-      "C) Cuando la entidad DEPARTAMENTO es una entidad débil vinculada a FACULTAD.",
-      "D) Cuando todos los docentes dictan exactamente una asignatura por departamento.",
-      "E) Cuando la relación 'adscrito' no posee ningún atributo propio asignado."
+      "A) Cuando la relación conserva un significado o semántica propia que no se puede deducir de la composición de las demás relaciones del ciclo.",
+      "B) Cuando posee cardinalidad máxima (1,1) en todas sus entidades participantes.",
+      "C) Cuando la entidad intermedia es una subentidad de una jerarquía exclusiva.",
+      "D) Siempre que pertenezca a un esquema generado por la estrategia ascendente pura.",
+      "E) Cuando ninguno de sus conectores contiene atributos propios asignados."
     ],
     correct: 0,
-    expl: "Si un docente dicta asignaturas en otros departamentos o no dicta clases en el ciclo actual, la ruta indirecta no permite deducir a qué departamento pertenece oficialmente; por ende, 'adscrito' no es redundante y debe mantenerse (Manual, Cap. IV)."
+    expl: "No se debe eliminar una relación de un ciclo si representa una asociación de negocio con significado propio no deducible a través del camino alternativo (Manual, Cap. IV)."
   },
   {
-    // PREGUNTA 6 -> CORRECTA: A (índice 0)
-    q: "6. En la notación IDEF1X soportada por herramientas como PowerDesigner, ¿cómo se representa gráficamente la restricción de dependencia de identificación entre entidades?",
+    // PREGUNTA 6 -> CORRECTA: A (Pág. 50-70 del Manual: Estrategias de Diseño Conceptual)
+    q: "6. ¿Cómo opera la 'Estrategia Descendente (Top-Down)' en el diseño de esquemas conceptuales?",
     options: [
-      "A) Mediante rectángulos con esquinas redondeadas para las entidades dependientes y una línea de conexión continua con un punto en el extremo.",
-      "B) Mediante óvalos dobles concéntricos unidas por líneas punteadas verdes.",
-      "C) Mediante rombos sombreados que contienen las letras 't' y 'e'.",
-      "D) Colocando el recuadro de la subentidad dentro de la entidad genérica madre.",
-      "E) Dibujando líneas de trazo discontinuo sin conectores circulares."
+      "A) Inicia con un esquema global abstracto y aplica refinamientos progresivos mediante primitivas descendentes desglosando entidades y relaciones.",
+      "B) Comienza identificando atributos individuales para agregarlos en entidades con A-1 y A-2.",
+      "C) Desarrolla módulos aislados de datos y los fusiona mediante integración de esquemas.",
+      "D) Selecciona una entidad central núcleo y se expande en forma de anillos concéntricos.",
+      "E) Define primero los índices y claves relacionales para luego modelar los diagramas ER."
     ],
     correct: 0,
-    expl: "En IDEF1X, las entidades dependientes de identificación se representan con esquinas redondeadas y sus relaciones identificadoras se dibujan con líneas continuas con un punto en su extremo (Manual, Cap. IV)."
+    expl: "La estrategia descendente parte del nivel de abstracción más alto (conceptos globales) y desciende gradualmente aplicando primitivas descendentes de refinamiento (Manual, Cap. V)."
   },
   {
-    // PREGUNTA 7 -> CORRECTA: D (índice 3)
-    q: "7. En Sybase Adaptive Server Anywhere (ASA), al configurar una Clave Foránea (FK) con la regla de integridad referencial 'Set dependent columns to NULL' (SET NULL), ¿qué ocurre al ejecutar un DELETE sobre la tupla padre?",
+    // PREGUNTA 7 -> CORRECTA: D (Pág. 50-70 del Manual: Estrategia Centrífuga)
+    q: "7. ¿En qué consiste fundamentalmente la 'Estrategia Centrífuga' descrita en la metodología de modelado?",
     options: [
-      "A) El gestor aborta la transacción notificando una violación estricta de clave ajena.",
-      "B) Se eliminan en cascada la tupla padre y todos sus registros asociados en la tabla hija.",
-      "C) Las claves primarias de las filas hijas se recalculan mediante secuencias numéricas.",
-      "D) Se elimina la tupla padre y el gestor actualiza automáticamente los campos de la clave foránea en los registros hijos asignándoles el valor NULL.",
-      "E) La operación se bloquea hasta que el usuario elimine manualmente los registros hijos."
+      "A) En descomponer el sistema en vistas externas independientes para cada perfil de usuario.",
+      "B) En partir del esquema armazón inicial para integrar las partes mediante subesquemas.",
+      "C) En agrupar atributos primitivos mediante la aplicación exclusiva de transformaciones ascendentes.",
+      "D) En seleccionar la entidad o concepto central más importante y expandir el esquema progresivamente desde el núcleo hacia la periferia.",
+      "E) En eliminar sistemáticamente todas las jerarquías con cobertura parcial."
     ],
     correct: 3,
-    expl: "La regla SET NULL preserva las filas hijas en la base de datos, pero rompe la vinculación referencial asignando NULL a los campos de la FK al borrar el registro padre relacionado (Manual, Cap. VII)."
+    expl: "La estrategia centrífuga identifica primero el núcleo conceptual principal del dominio de discurso y va incorporando los conceptos periféricos en forma de mancha de aceite (Manual, Cap. V)."
   },
   {
-    // PREGUNTA 8 -> CORRECTA: A (índice 0)
-    q: "8. De acuerdo con el enfoque orientado a los datos para el diseño de bases de datos de Batini/Ceri/Navathe, ¿cuál es el orden metodológico secuencial correcto de las fases de desarrollo?",
+    // PREGUNTA 8 -> CORRECTA: A (Pág. 1-15 del Manual: Enfoque Orientado a los Datos)
+    q: "8. Dentro del enfoque orientado a los datos para la ingeniería de bases de datos, ¿cuál es el orden secuencial metodológico estricto?",
     options: [
-      "A) Requerimientos de datos -> Diseño Conceptual -> Diseño Lógico -> Diseño Físico.",
-      "B) Diseño Físico -> Normalización BCNF -> Diseño Conceptual -> Implementación.",
-      "C) Requerimientos de datos -> Diseño Lógico -> Diseño Físico -> Esquema Conceptual.",
-      "D) Diseño Inicial -> Normalización 3FN -> Estrategia Mixta -> Implementación SQL.",
-      "E) Esquema Conceptual -> Diseño Físico -> Análisis de Requerimientos -> Diseño Lógico."
+      "A) Análisis de Requerimientos de Datos -> Diseño Conceptual -> Diseño Lógico -> Diseño Físico.",
+      "B) Diseño Físico -> Diseño Lógico -> Análisis de Requerimientos -> Diseño Conceptual.",
+      "C) Análisis de Requerimientos -> Diseño Lógico -> Diseño Conceptual -> Implementación.",
+      "D) Diseño Conceptual -> Análisis de Requerimientos -> Normalización -> Diseño Físico.",
+      "E) Selección de SGBD -> Diseño Físico -> Diseño Lógico -> Esquema Conceptual."
     ],
     correct: 0,
-    expl: "El Enfoque Orientado a los Datos establece la secuencia lógica obligatoria: Análisis de Requerimientos -> Diseño Conceptual -> Diseño Lógico -> Diseño Físico (Manual, Cap. I)."
+    expl: "La metodología de diseño de BD impone siempre la secuencia: Análisis de Requerimientos -> Diseño Conceptual (independiente del SGBD) -> Diseño Lógico -> Diseño Físico (Manual, Cap. I)."
   },
   {
-    // PREGUNTA 9 -> CORRECTA: D (índice 3)
-    q: "9. En el Caso del Banco resuelto mediante la Estrategia Mixta, ¿por qué la relación 'solicita' (préstamos) se conecta explícitamente a la subentidad FIJO y no a EMPLEADO?",
+    // PREGUNTA 9 -> CORRECTA: D (Pág. 65-80 del Manual: Caso de Estudio Entidad Bancaria)
+    q: "9. En el Caso de la Entidad Bancaria resuelto mediante refinamientos conceptuales, ¿por qué la entidad AGENCIA requiere identicación débil respecto a CIUDAD?",
     options: [
-      "A) Porque los empleados temporales no poseen número de DNI registrado.",
-      "B) Para evitar la creación de ciclos de relaciones redundantes entre CIUDAD y AGENCIA.",
-      "C) Porque la subentidad TEMPORAL utiliza una clave primaria distinta al código de empleado.",
-      "D) Porque las reglas de negocio establecen que únicamente el personal de contrato fijo posee la atribución de solicitar préstamos.",
-      "E) Porque la subentidad FIJO es una entidad débil que depende de TIPO_PRÉSTAMO."
+      "A) Porque las agencias bancarias no poseen dirección física ni número telefónico.",
+      "B) Porque un empleado únicamente puede trabajar en agencias de su misma ciudad de residencia.",
+      "C) Porque no es posible asignar claves primarias numéricas a las entidades organizativas.",
+      "D) Porque los nombres de agencia sólo son únicos dentro de una misma ciudad, requiriendo (CIUDAD + nombre) para ser unívocos.",
+      "E) Porque la relación 'trabaja en' es de cardinalidad 1:1."
     ],
     correct: 3,
-    expl: "Conectar la relación 'solicita' a la subentidad FIJO garantiza la regla de negocio que prohíbe que los empleados temporales accedan a solicitudes de préstamos (S04 y Manual, Cap. V)."
+    expl: "El enunciado especifica que agencias situadas en ciudades distintas pueden compartir el mismo nombre; por ello, AGENCIA necesita la clave de CIUDAD para identificarse de forma única (Manual, Cap. V y Caso Banco)."
   },
   {
-    // PREGUNTA 10 -> CORRECTA: A (índice 0)
-    q: "10. En la estrategia de modelado CENTRÍFUGA para el diseño conceptual de esquemas de bases de datos:",
+    // PREGUNTA 10 -> CORRECTA: A (Pág. 40-55 del Manual: Primitivas Ascendentes A-1 y A-3)
+    q: "10. ¿Cuál es el propósito funcional de la Primitiva Ascendente A-3 (Generación de Generalización)?",
     options: [
-      "A) Se selecciona el concepto o entidad central más importante y el esquema se expande progresivamente hacia afuera como una mancha de aceite.",
-      "B) Se parte de un armazón general de entidades principales para dividirlas en módulos separados.",
-      "C) Se aplican exclusivamente las primitivas ascendentes A-1 y A-2 sin realizar refinamientos descendentes.",
-      "D) Se diseñan primero los índices físicos para construir las tablas del sistema desde la periferia.",
-      "E) Se parte del listado completo de atributos desestructurados para agruparlos en entidades."
+      "A) Partir de un conjunto de entidades específicas existentes para abstraer un supertipo común que recoja sus características compartidas.",
+      "B) Dividir una entidad genérica en subentidades especializadas mediante una jerarquía (t,e).",
+      "C) Convertir una relación binaria N:M en una entidad asociativa intermedia.",
+      "D) Crear una entidad totalmente nueva a partir de un conjunto de atributos no agrupados.",
+      "E) Fusionar dos atributos simples en un único atributo compuesto."
     ],
     correct: 0,
-    expl: "La estrategia centrífuga fija primero la entidad núcleo más representativa y va incorporando los conceptos adyacentes en anillos concéntricos expandiéndose como una mancha de aceite (Manual, Cap. V)."
+    expl: "La primitiva ascendente A-3 realiza la operación inversa a D-2: toma subtipos o entidades concretas ya identificadas y abstrae una superentidad común (Manual, Cap. V)."
   }
 ];
 
