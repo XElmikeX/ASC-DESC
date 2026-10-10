@@ -1,0 +1,347 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+  background-color: #f4f7f6;
+  color: #333;
+  line-height: 1.6;
+  padding-bottom: 40px;
+}
+
+header {
+  background-color: #1e3a8a;
+  color: #fff;
+  text-align: center;
+  padding: 1.5rem 1rem;
+}
+
+header h1 {
+  font-size: 2rem;
+  margin-bottom: 0.3rem;
+}
+
+.main-nav {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 15px;
+  flex-wrap: wrap;
+}
+
+.nav-btn {
+  padding: 8px 16px;
+  background-color: #1d4ed8;
+  color: white;
+  border: 1px solid #60a5fa;
+  border-radius: 6px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.nav-btn.active, .nav-btn:hover {
+  background-color: #ffffff;
+  color: #1e3a8a;
+}
+
+.container {
+  max-width: 950px;
+  margin: 20px auto;
+  padding: 0 15px;
+}
+
+.card {
+  background: #fff;
+  border-radius: 8px;
+  padding: 25px;
+  margin-bottom: 25px;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+.main-sec {
+  display: none;
+}
+
+.main-sec.active {
+  display: block;
+}
+
+h2 {
+  color: #1e3a8a;
+  margin-bottom: 15px;
+  border-bottom: 2px solid #e2e8f0;
+  padding-bottom: 8px;
+}
+
+h3 {
+  color: #1e3a8a;
+  margin: 10px 0;
+}
+
+/* Tabs */
+.tabs {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+  border-bottom: 2px solid #e2e8f0;
+  padding-bottom: 10px;
+  flex-wrap: wrap;
+}
+
+.tab-btn {
+  flex: 1;
+  min-width: 120px;
+  padding: 10px 15px;
+  background-color: #e2e8f0;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 0.95rem;
+  color: #475569;
+  transition: all 0.3s ease;
+}
+
+.tab-btn.active, .tab-btn:hover, .tab-btn.on {
+  background-color: #2563eb;
+  color: white;
+}
+
+.quiz-header {
+  display: flex;
+  justify-content: flex-start;
+  font-weight: bold;
+  font-size: 1.1rem;
+  margin-bottom: 15px;
+  color: #334155;
+}
+
+.schemas-container {
+  display: flex;
+  gap: 20px;
+  justify-content: space-around;
+  flex-wrap: wrap;
+  margin-bottom: 20px;
+  background-color: #f8fafc;
+  padding: 20px;
+  border-radius: 8px;
+  border: 1px solid #e2e8f0;
+}
+
+.schema-box {
+  flex: 1;
+  min-width: 260px;
+  text-align: center;
+}
+
+.schema-box h4 {
+  margin-bottom: 10px;
+  color: #1e3a8a;
+}
+
+/* Contenedor y escalado correcto para los esquemas del Test */
+.quiz-diagram {
+  width: 100%;
+  height: 180px;
+  background-color: #0f172a;
+  border: 1px dashed #cbd5e1;
+  border-radius: 6px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 10px;
+  margin-top: 8px;
+}
+
+.quiz-diagram svg {
+  width: 100%;
+  height: 100%;
+  max-height: 160px;
+  object-fit: contain;
+  background: transparent;
+}
+
+.alert {
+  padding: 12px 15px;
+  border-radius: 6px;
+  margin-bottom: 15px;
+  font-weight: bold;
+  text-align: center;
+}
+
+.alert-success {
+  background-color: #d1fae5;
+  color: #065f46;
+  border: 1px solid #a7f3d0;
+}
+
+.alert-danger {
+  background-color: #fee2e2;
+  color: #991b1b;
+  border: 1px solid #fecaca;
+}
+
+.hidden {
+  display: none !important;
+}
+
+.options-container {
+  margin-top: 15px;
+}
+
+.options-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(90px, 1fr));
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.option-btn {
+  padding: 12px;
+  border: 2px solid #cbd5e1;
+  background-color: #fff;
+  border-radius: 6px;
+  font-weight: bold;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.option-btn:hover:not(:disabled) {
+  border-color: #2563eb;
+  background-color: #eff6ff;
+  color: #2563eb;
+}
+
+.option-btn.correct {
+  background-color: #10b981 !important;
+  color: white !important;
+  border-color: #059669 !important;
+}
+
+.option-btn.wrong {
+  background-color: #ef4444 !important;
+  color: white !important;
+  border-color: #dc2626 !important;
+}
+
+.option-btn:disabled {
+  cursor: not-allowed;
+  opacity: 0.8;
+}
+
+.actions {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 20px;
+}
+
+.btn {
+  padding: 10px 20px;
+  font-size: 1rem;
+  font-weight: bold;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.btn-primary {
+  background-color: #2563eb;
+  color: white;
+}
+
+.btn-primary:hover {
+  background-color: #1d4ed8;
+}
+
+/* Vector SVG generales del Test */
+.node-rect { fill: #1e293b; stroke: #38bdf8; stroke-width: 2; }
+.node-rhombus { fill: #1e293b; stroke: #a855f7; stroke-width: 2; }
+.node-ellipse { fill: #1e293b; stroke: #94a3b8; stroke-width: 2; }
+.line-conn { stroke: #38bdf8; stroke-width: 2; }
+.dot { fill: #22c55e; }
+
+/* Estilos de SVG integrados para Caso del Banco y Diagramas complejos */
+.sv { overflow: auto; margin: 15px 0; }
+.sv svg {
+  width: 100%;
+  height: auto;
+  background: #0f172a;
+  border-radius: 8px;
+  display: block;
+  min-width: 650px;
+}
+svg line { stroke: #7dd3fc; stroke-width: 1.6; }
+.e rect { fill: #1e293b; stroke: #38bdf8; stroke-width: 2; }
+.r polygon { fill: #3b1d7a; stroke: #a78bfa; stroke-width: 2; }
+svg text { fill: #f8fafc; font: 600 12px "Segoe UI", sans-serif; text-anchor: middle; }
+svg text.a { fill: #7dd3fc; font-weight: 400; }
+svg text.pk { text-decoration: underline; fill: #fde68a; }
+svg text.c { fill: #fbbf24; font-size: 11px; }
+
+/* Componentes Práctica y Laboratorio */
+.q {
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  padding: 15px;
+  border-radius: 8px;
+  margin: 15px 0;
+}
+
+.q label {
+  display: block;
+  padding: 8px 12px;
+  border: 1px solid #cbd5e1;
+  background: #fff;
+  border-radius: 6px;
+  margin: 6px 0;
+  cursor: pointer;
+}
+
+.q label:hover {
+  border-color: #2563eb;
+  background: #eff6ff;
+}
+
+.bar {
+  height: 12px;
+  background: #e2e8f0;
+  border-radius: 9px;
+  overflow: hidden;
+  margin: 10px 0;
+}
+
+.bar i {
+  display: block;
+  height: 100%;
+  background: linear-gradient(90deg, #2563eb, #7c3aed);
+  transition: width 0.4s ease;
+}
+
+.note {
+  border-left: 4px solid #2563eb;
+  padding: 10px 15px;
+  background: #eff6ff;
+  border-radius: 4px;
+  margin: 12px 0;
+}
+
+.int {
+  border-left-color: #f59e0b;
+  background: #fffbeb;
+}
+
+.tw { overflow-x: auto; margin: 15px 0; }
+table { width: 100%; border-collapse: collapse; font-size: 0.9rem; min-width: 550px; }
+td, th { border: 1px solid #cbd5e1; padding: 8px 10px; text-align: left; }
+th { background: #1e3a8a; color: white; }
+
+details { margin: 8px 0; background: #f8fafc; padding: 10px; border-radius: 6px; border: 1px solid #e2e8f0; }
+summary { cursor: pointer; font-weight: bold; color: #1e3a8a; }
+.fb { margin-top: 8px; }
+.ok { color: #059669; }
+.bad { color: #dc2626; }

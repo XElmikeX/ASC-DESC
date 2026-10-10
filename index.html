@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Primitivas de Modelado Conceptual - Sitio Educativo</title>
+  <link rel="stylesheet" href="/css/decorate.css">
+</head>
+<body>
+
+  <header>
+    <h1>Primitivas Ascendentes y Descendentes</h1>
+    <p>Plataforma educativa de aprendizaje, evaluación y resolución de problemas de transformaciones conceptuales</p>
+    <nav class="main-nav">
+      <button class="nav-btn active" onclick="showMainSection('test')">Identificación de Primitivas</button>
+      <button class="nav-btn" onclick="showMainSection('practica')">Práctica Evaluativa</button>
+      <button class="nav-btn" onclick="showMainSection('lab')">Resolver Problemas (Caso Banco)</button>
+    </nav>
+  </header>
+
+  <main class="container">
+    
+    <!-- SECCIÓN 1: TEST DE DIBUJOS DE PRIMITIVAS -->
+    <section id="sec-test" class="card test-section main-sec active">
+      <h2>Identificación Visual de Primitivas</h2>
+      <div class="tabs">
+        <button class="tab-btn active" onclick="switchQuiz('descendentes')">Test Primitivas Descendentes (D)</button>
+        <button class="tab-btn" onclick="switchQuiz('ascendentes')">Test Primitivas Ascendentes (A)</button>
+      </div>
+
+      <div class="quiz-header">
+        <span id="question-number">Pregunta 1 de 8</span>
+      </div>
+
+      <!-- Esquemas superior -->
+      <div class="schemas-container">
+        <div class="schema-box">
+          <h4>Esquema Inicial</h4>
+          <div id="test-initial-schema" class="quiz-diagram"></div>
+        </div>
+        <div class="schema-box">
+          <h4>Esquema Resultante</h4>
+          <div id="test-result-schema" class="quiz-diagram"></div>
+        </div>
+      </div>
+
+      <!-- Alertas de retroalimentación -->
+      <div id="feedback-alert" class="alert hidden"></div>
+
+      <!-- Alternativas inferior -->
+      <div class="options-container">
+        <p><strong>Selecciona la primitiva correspondiente:</strong></p>
+        <div id="options-grid" class="options-grid"></div>
+      </div>
+
+      <!-- Botón Siguiente -->
+      <div class="actions">
+        <button id="next-btn" class="btn btn-primary hidden" onclick="nextQuestion()">Siguiente Pregunta &rarr;</button>
+      </div>
+    </section>
+
+    <!-- SECCIÓN 2: PRÁCTICA CON BANCO DE PREGUNTAS (DATALAB) -->
+    <section id="sec-practica" class="card main-sec">
+      <h2>Práctica Evaluativa y Conceptos E/R</h2>
+      <div id="practica-container"></div>
+    </section>
+
+    <!-- SECCIÓN 3: RESOLVER PROBLEMAS - CASO BANCO (DATALAB) -->
+    <section id="sec-lab" class="card main-sec">
+      <h2>Caso de Estudio: Personal de la Entidad Bancaria</h2>
+      <p class="note int">Problema de diseño conceptual resuelto paso a paso mediante la estrategia descendente (DESC).</p>
+      
+      <div id="lab-tabs" class="tabs"></div>
+      <div id="lab-content" class="lab-card-body"></div>
+    </section>
+
+  </main>
+
+  <script src="/js/interact.js"></script>
+</body>
+</html>
